@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "530664362910",
+    "firebase_url": "https://pizzabot-1b76e.firebaseio.com",
+    "project_id": "pizzabot-1b76e",
+    "storage_bucket": "pizzabot-1b76e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530664362910:android:1532759ca662a6d45bfc8f",
+        "android_client_info": {
+          "package_name": "com.example.firebase_flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530664362910-fo0jes6u3jvpi5284netvva7q93hav60.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7SKrwOJ4CeVsQFaU_OjaRFNE5eln5Yrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530664362910-nij6nh4t89njm12auqhmk0sfumor3k6j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
