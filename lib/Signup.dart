@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Signup extends StatefulWidget {
+
   @override
   _SignupState createState() => _SignupState();
 }
@@ -10,6 +11,7 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   String _email;
   String _password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,18 +46,26 @@ class _SignupState extends State<Signup> {
               ),
               SizedBox(height: 20.0),
 
-              RaisedButton(
-                  child: Text("SIGN UP"),
-                  color: Colors.green[600],
-                  textColor: Colors.white,
-                  elevation: 7.0,
-                  onPressed: () {
-                    FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password).then((signedInUser){
-                      UserManagement().storeUser(signedInUser, context);
-                    }).catchError((e) {
-                      print(e);
-                    });
-                  },
+              GestureDetector(
+                onTap: (){
+                  FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password).then((signedInUser){
+                    UserManagement().storeUser(signedInUser, context);
+                  }).catchError((e){
+                    print(e);
+                  });
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: LinearGradient(
+                        colors: [Colors.lightGreenAccent,Colors.green[700]]
+                    ),
+                  ),
+                  child: Text("Sign up",style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),),
+                ),
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 //Google SignIn Authentication
@@ -17,7 +18,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String _email;
   String _password;
-
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -50,98 +50,130 @@ class _LoginState extends State<Login> {
 
     return null;
   }
+
+  Future resetPassword(String email) async{
+    try{
+      return await _auth.sendPasswordResetEmail(email: _email);
+
+    } catch(e){
+      print(e.toString());
+    }
+  }
   
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Email',
+          height: MediaQuery.of(context).size.height,
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _email = value;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    _email = value;
-                  });
-                },
-              ),
-              SizedBox(height: 10.0),
+                SizedBox(height: 10.0),
 
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Password',
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _password = value;
+                    });
+                  },
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    _password = value;
-                  });
-                },
-              ),
-              SizedBox(height: 16.0),
+                SizedBox(height: 8.0),
 
-              RaisedButton(
-                  child: Text("LOGIN"),
-                  color: Colors.green[600],
-                  textColor: Colors.white,
-                  elevation: 7.0,
-                  onPressed: (){
-                    FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password).then((user) {
-                      Navigator.of(context).pushReplacementNamed('/homepage');
-                    }).catchError((e) {
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: Text("Forgot Password ?"),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+
+                GestureDetector(
+                  onTap: (){
+                    FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password).then((user){
+                      Navigator.of(context).pushReplacementNamed('/dashboard');
+                    }).catchError((e){
                       print(e);
                     });
-                  }
-              ),
-              SizedBox(height: 7.0),
-
-              Text("Don't have an Account ?"),
-              SizedBox(height: 10.0),
-
-              RaisedButton(
-                  child: Text("SIGN UP"),
-                  color: Colors.green[600],
-                  textColor: Colors.white,
-                  elevation: 7.0,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/signup');
-                  }
-              ),
-
-              SizedBox(height: 16.0),
-
-              RaisedButton(
-                  child: Row(
-                    children: [
-                      Icon(FontAwesomeIcons.google, color: Colors.deepOrange),
-                      SizedBox(width: 4.0),
-                      Text('SignIn with Google'),
-                    ],
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      gradient: LinearGradient(
+                        colors: [Colors.lightGreenAccent,Colors.green[700]]
+                      ),
+                    ),
+                    child: Text("Login",style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),),
                   ),
-                  color: Colors.green[600],
-                  textColor: Colors.white,
-                  elevation: 7.0,
-                  onPressed: (){
-                    // _signIn().whenComplete(() async {
-                    //   FirebaseUser user = await FirebaseAuth.instance.currentUser;
-                    //   Navigator.of(context).pushReplacementNamed('/homepage');
-                    // });
+                ),
+                SizedBox(height: 16.0),
 
-                    signInWithGoogle().then((result){
+                GestureDetector(
+                  onTap: (){
+                    signInWithGoogle().then((result) {
                       if(result != null){
-                          Navigator.of(context).pushReplacementNamed('/homepage');
+                        Navigator.of(context).pushReplacementNamed('/dashboard');
                       }
                     });
-                  }
-              ),
+                  },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: LinearGradient(
+                            colors: [Colors.lightGreenAccent,Colors.green[700]]
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(FontAwesomeIcons.google, color: Colors.orange),
+                          SizedBox(width: 5),
+                          Text("Sign in with Google",style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),),
+                        ],
+                      ),
+                    ),
+                  ),
 
-            ],
+                SizedBox(height: 7.0),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Don't have an Account ? "),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pushNamed('/signup');
+                      },
+                        child: Text("Register now", style: TextStyle(color: Colors.white,fontSize: 17, decoration: TextDecoration.underline))),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

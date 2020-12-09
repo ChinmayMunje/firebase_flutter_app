@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_flutter_app/Dashboard.dart';
 import 'package:firebase_flutter_app/Home_Page.dart';
 import 'package:firebase_flutter_app/Login.dart';
 import 'package:firebase_flutter_app/Signup.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         '/landingpage': (BuildContext context)=> new MyApp(),
         '/signup': (BuildContext context)=> new Signup(),
         '/homepage': (BuildContext context)=> new Home_Page(),
+        '/dashboard': (BuildContext context)=> new Dashboard(),
       },
     );
   }
